@@ -70,7 +70,9 @@ This spins up two containers:
 <Callout type="warning">
 Wait 10–15 seconds after running this command before making API calls. The database needs time to initialize.
 </Callout>
-
+<Callout type="warning">
+Before making API calls, open `main.go` and update line 41 — change the postgres host from `localhost` to `postgres`.
+</Callout>
 Verify both containers are running:
 
 ```bash
@@ -84,7 +86,7 @@ docker ps
 Now the magic happens. Start Keploy in record mode:
 
 ```bash
-keploy record -c "docker compose up" --container-name "echoSqlApp"
+keploy record -c "docker compose up" --container-name "echoApp"
 ```
 
 Keploy is now intercepting all traffic to your app. Make some API calls to generate test cases:
@@ -116,7 +118,7 @@ Stop recording with `Ctrl+C`. You'll see test files generated in the `keploy/` f
 Now replay everything Keploy recorded:
 
 ```bash
-keploy test -c "docker compose up" --container-name "echoSqlApp"
+keploy test -c "docker compose up" --container-name "echoApp"
 ```
 
 Keploy will:
