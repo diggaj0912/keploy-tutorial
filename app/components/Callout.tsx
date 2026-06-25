@@ -4,10 +4,10 @@ type CalloutProps = {
 };
 
 const styles = {
-  info: "bg-blue-50 border-blue-400 text-blue-900",
-  warning: "bg-yellow-50 border-yellow-400 text-yellow-900",
-  success: "bg-green-50 border-green-400 text-green-900",
-  danger: "bg-red-50 border-red-400 text-red-900",
+  info: "bg-blue-950 border-blue-400 text-blue-100",
+  warning: "bg-yellow-950 border-yellow-400 text-yellow-100",
+  success: "bg-green-950 border-green-400 text-green-100",
+  danger: "bg-red-950 border-red-400 text-red-100",
 };
 
 const icons = {
