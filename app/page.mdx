@@ -1,0 +1,163 @@
+import Callout from "./components/Callout";
+
+# Testing a Go URL Shortener with Keploy 🐰
+
+A hands-on guide to recording and replaying API tests automatically — no test code required.
+
+---
+
+## What is Keploy?
+
+If you've ever written API tests manually, you know the pain — mocking dependencies, maintaining test data, and updating tests every time the API changes. Keploy flips this on its head.
+
+**Keploy records your real API traffic and replays it as tests.** It captures the HTTP requests and responses as you interact with your app, then uses those recordings to verify your app behaves the same way in future runs — automatically.
+
+For Go developers, this means zero-boilerplate integration testing.
+
+---
+
+## What We're Building
+
+We'll run a sample **URL Shortener API** built with:
+- **Echo** — a fast, minimalist Go web framework
+- **PostgreSQL** — for storing shortened URLs
+
+By the end, you'll have recorded real API test cases and replayed them with Keploy — without writing a single line of test code.
+
+---
+
+## Prerequisites
+
+<Callout type="info">
+Make sure you have these installed before starting: Docker Desktop, Git, and Keploy CLI.
+</Callout>
+
+Install Keploy on macOS:
+
+```bash
+brew install keploy/tap/keploy
+```
+
+Verify installation:
+
+```bash
+keploy --version
+```
+
+---
+
+## Step 1: Clone the Sample App
+
+```bash
+git clone https://github.com/keploy/samples-go.git
+cd samples-go/echo-sql
+```
+
+This is a production-like URL shortener with real database interactions — perfect for seeing Keploy in action.
+
+---
+
+## Step 2: Start the App with Docker
+
+```bash
+docker compose up -d
+```
+
+This spins up two containers:
+- The **Echo Go app** on port `8082`
+- A **PostgreSQL** database
+
+<Callout type="warning">
+Wait 10–15 seconds after running this command before making API calls. The database needs time to initialize.
+</Callout>
+
+Verify both containers are running:
+
+```bash
+docker ps
+```
+
+---
+
+## Step 3: Record Test Cases
+
+Now the magic happens. Start Keploy in record mode:
+
+```bash
+keploy record -c "docker compose up" --container-name "echoSqlApp"
+```
+
+Keploy is now intercepting all traffic to your app. Make some API calls to generate test cases:
+
+**Create a short URL:**
+
+```bash
+curl -X POST http://localhost:8082/url \
+  -H "Content-Type: application/json" \
+  -d '{"url": "https://github.com/keploy/keploy"}'
+```
+
+**Get the original URL:**
+
+```bash
+curl http://localhost:8082/GuwHCgoQ
+```
+
+<Callout type="success">
+Each curl command you run creates one test case. Keploy captures the full request, response, and any database calls automatically.
+</Callout>
+
+Stop recording with `Ctrl+C`. You'll see test files generated in the `keploy/` folder.
+
+---
+
+## Step 4: Replay the Tests
+
+Now replay everything Keploy recorded:
+
+```bash
+keploy test -c "docker compose up" --container-name "echoSqlApp"
+```
+
+Keploy will:
+1. Start your app
+2. Replay every recorded HTTP request
+3. Compare the actual response to the recorded one
+4. Report pass/fail
+
+<Callout type="info">
+Keploy also mocks the database calls it recorded — so your tests are deterministic and don't depend on live data.
+</Callout>
+
+---
+
+## What Just Happened?
+
+Here's the "a-ha" moment: **you never wrote a single test.**
+
+Keploy recorded your real interactions and turned them into a full integration test suite — including database mocks. This is the core value proposition:
+
+- ✅ No mock setup
+- ✅ No test data management  
+- ✅ No flaky tests from live dependencies
+- ✅ Tests that reflect real user behavior
+
+---
+
+## Why This Matters for Go Developers
+
+Go's testing ecosystem is excellent but writing integration tests is still tedious. Keploy sits at the layer above unit tests — it tests your entire request lifecycle from HTTP handler to database and back.
+
+For teams shipping Go microservices, Keploy can slot into your CI/CD pipeline and catch regressions automatically from day one.
+
+---
+
+## Next Steps
+
+- Explore the generated test files in `keploy/tests/`
+- Add Keploy to your GitHub Actions CI pipeline
+- Try the [Keploy VS Code extension](https://marketplace.visualstudio.com/items?itemName=Keploy.keployio)
+
+<Callout type="info">
+Full documentation at [keploy.io/docs](https://keploy.io/docs)
+</Callout>
