@@ -4,12 +4,18 @@ html {
   scroll-behavior: smooth;
 }
 
-body {
+/* Dark mode */
+.dark body {
   background-color: #030712;
   color: #f9fafb;
 }
 
-/* Prose styling for MDX content */
+/* Light mode */
+body {
+  background-color: #ffffff;
+  color: #111827;
+}
+
 .prose h1 {
   font-size: 2.5rem;
   font-weight: 800;
@@ -25,44 +31,59 @@ body {
   font-weight: 700;
   margin-top: 2.5rem;
   margin-bottom: 1rem;
-  color: #f9fafb;
-  border-bottom: 1px solid #1f2937;
+  border-bottom: 1px solid #e5e7eb;
   padding-bottom: 0.5rem;
 }
 
+.dark .prose h2 {
+  border-bottom: 1px solid #1f2937;
+}
+
 .prose p {
-  color: #d1d5db;
   line-height: 1.8;
   margin-bottom: 1rem;
 }
 
 .prose code {
-  background: #111827;
-  color: #fb923c;
+  background: #f3f4f6;
+  color: #ea580c;
   padding: 0.2rem 0.4rem;
   border-radius: 4px;
   font-size: 0.875rem;
 }
 
-.prose pre {
+.dark .prose code {
   background: #111827;
-  border: 1px solid #1f2937;
+  color: #fb923c;
+}
+
+.prose pre {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
   border-radius: 8px;
   padding: 1.25rem;
   overflow-x: auto;
   margin: 1.5rem 0;
 }
 
+.dark .prose pre {
+  background: #111827;
+  border: 1px solid #1f2937;
+}
+
 .prose pre code {
   background: transparent;
-  color: #e5e7eb;
+  color: #111827;
   padding: 0;
+}
+
+.dark .prose pre code {
+  color: #e5e7eb;
 }
 
 .prose ul {
   list-style: disc;
   padding-left: 1.5rem;
-  color: #d1d5db;
   margin-bottom: 1rem;
 }
 
@@ -71,16 +92,23 @@ body {
 }
 
 .prose strong {
-  color: #f9fafb;
   font-weight: 600;
 }
 
 .prose hr {
-  border-color: #1f2937;
   margin: 2rem 0;
+  border-color: #e5e7eb;
+}
+
+.dark .prose hr {
+  border-color: #1f2937;
 }
 
 .prose a {
-  color: #fb923c;
+  color: #ea580c;
   text-decoration: underline;
+}
+
+.dark .prose a {
+  color: #fb923c;
 }
